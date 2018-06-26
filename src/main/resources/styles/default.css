@@ -38,9 +38,10 @@ and open the template in the editor.
     src: url('../font/Les-Mousquetaires.ttf');
 }
 @font-face {
-    font-family: 'Caviar Dreams';
-    src: url("../font/CaviarDreams_BoldItalic.ttf");
+    font-family: 'Caviar Dreams BoldItalic';
+    src: url("../Les-Mousquetaires.ttf");
 }*/
+
 
 
 .Painel {
@@ -56,16 +57,16 @@ and open the template in the editor.
 .label {
     -fx-font-size: 16px;
     -fx-alignment: center;
-/*    -fx-font-family: "Roboto Regular";*/
+    -fx-font-family: "Caviar Dreams BoldItalic";
 }
 
 .label-titulo {
-/*    -fx-font-family: "Caviar Dreams";*/
+    -fx-font-family: "Caviar Dreams";
     -fx-font-size: 30px;
 }
 
 .label-data {
-/*    -fx-font-family: "Roboto Medium";*/
+    -fx-font-family: "Roboto Medium";
     -fx-font-size: 20px;
 }
 

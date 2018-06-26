@@ -19,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import org.apache.log4j.Logger;
@@ -47,7 +48,7 @@ public class LoginController extends AnchorPane {
     private ProgressIndicator indicator = new ProgressIndicator();
 
     public LoginController(BorderPane painelPrincipal) {
-        
+        Font.loadFont(LoginController.class.getResource("cassio.ttf").toExternalForm(), 10);
         this.painelPrincipal = painelPrincipal;
 
         try {
