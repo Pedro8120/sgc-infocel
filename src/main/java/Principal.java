@@ -14,7 +14,6 @@ public class Principal extends Application {
     
     @Override
     public void start(Stage palco) {
-        
         try {
             Painel painel = new Painel();
             painel.start(palco);
