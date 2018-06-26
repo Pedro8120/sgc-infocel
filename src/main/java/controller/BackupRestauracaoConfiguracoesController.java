@@ -287,12 +287,12 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @FXML
     private void alterarBackup(ActionEvent event) {
         DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Escolha o diretório para backup");
+        chooser.setTitle("Escolha o diretório para Backup");
 
         File pasta = new File(config.DIRETORIO_BACKUP);
-        if (pasta.exists() == false) {
-            pasta.mkdirs();
-        }
+//        if (pasta.exists() == false) {
+//            pasta.mkdirs();
+//        }
 
         if ((new File(config.DIRETORIO_BACKUP).exists()))
             chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
@@ -300,7 +300,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         File arquivo = chooser.showDialog(Painel.palco);
 
         if (arquivo != null) {
-            String diretorio = arquivo.getAbsolutePath();
+            String diretorio = arquivo.getAbsolutePath() + Config.getBarra();
             System.out.println(diretorio);
 
             caminhoBackupText.setText(diretorio);
@@ -317,12 +317,12 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @FXML
     private void alterarComprovantes(ActionEvent event) {
         DirectoryChooser chooser = new DirectoryChooser();
-        chooser.setTitle("Escolha o diretória para backup");
+        chooser.setTitle("Escolha o diretório dos Comprovantes");
 
         File pasta = new File(config.DIRETORIO_RELATORIOS);
-        if (pasta.exists() == false) {
-            pasta.mkdirs();
-        }
+//        if (pasta.exists() == false) {
+//            pasta.mkdirs();
+//        }
 
         if ((new File(config.DIRETORIO_BACKUP).exists()))
             chooser.setInitialDirectory(new File(config.DIRETORIO_RELATORIOS));
@@ -330,7 +330,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         File arquivo = chooser.showDialog(Painel.palco);
 
         if (arquivo != null) {
-            String diretorio = arquivo.getAbsolutePath();
+            String diretorio = arquivo.getAbsolutePath() + Config.getBarra();
 
             caminhoComprovantesText.setText(diretorio);
             config.DIRETORIO_RELATORIOS = diretorio;
