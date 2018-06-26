@@ -567,16 +567,19 @@ public class Formatter {
         return new DecimalFormat("#,###.00").format(num.doubleValue());
     }
     
-    public static void teste(TextField textField) {
+    public static void desconto(TextField textField) {
 
-        textField.setOnKeyTyped(event -> {
-            String typedCharacter = event.getCharacter();
-            event.consume();
-
-            if (typedCharacter.matches("\\d*")) {
-                String currentText = textField.getText().replaceAll("\\.", "").replace(",", "");
-                long longVal = Long.parseLong(currentText.concat(typedCharacter));
-                textField.setText(new DecimalFormat("#,###").format(longVal));
+        textField.lengthProperty().addListener((ObservableValue<? extends Number> obs, Number old, Number novo) -> {
+            if (novo.intValue() > old.intValue()) {
+                char ch = textField.getText().charAt(old.intValue());
+                if (!(ch >= '0' && ch <= '9')) {
+                    textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
+                } else {
+                    double valor = Double.valueOf(textField.getText());
+                    if (valor > 100) {
+                        textField.setText(textField.getText().substring(0, textField.getText().length() - 1));
+                    }
+                }
             }
         });
 

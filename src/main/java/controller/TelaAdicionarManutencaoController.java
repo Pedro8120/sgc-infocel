@@ -199,7 +199,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         sincronizarBancoDadosCidade();
         sincronizarBancoDadosPagamento();
         
-        Formatter.teste(precoText);
+        Formatter.desconto(precoText);
         
     }
 
