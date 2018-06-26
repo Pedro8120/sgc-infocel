@@ -9,7 +9,7 @@
         <mainClass>Principal</mainClass>
     </properties>
 
-    <groupId>com.tixe</groupId>
+    <groupId>com.infocel</groupId>
     <artifactId>SGC-INFOCEL</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
