@@ -133,7 +133,7 @@
                            <children>
                               <HBox prefHeight="100.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
                                  <children>
-                                    <TextField fx:id="descontoText" maxWidth="90.0" />
+                                    <TextField fx:id="descontoText" alignment="CENTER" maxWidth="90.0" />
                                  </children>
                               </HBox>
                               <HBox fx:id="valorParcelaBox" alignment="CENTER_RIGHT" spacing="5.0">

@@ -153,7 +153,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
         Formatter.mascaraCPF(cpfText);//Formatador para CPF
         Formatter.mascaraRG(rgText);//Formatador para Rg
         Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
-        Formatter.decimal(descontoText);
+        Formatter.desconto(descontoText);
 
         Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText, numeroText);
 
@@ -197,6 +197,13 @@ public class TelaAdicionarVendaController extends AnchorPane {
         
         parcelasSpinner.setOnMouseClicked((e) -> {
             atualizarPrecoParcelas();
+        });
+        
+        descontoText.textProperty().addListener((e) -> {
+            atualizarDesconto();
+            if (!novaVenda.isEmpty()) {
+                atualizarTabela();
+            }
         });
         
         sincronizarBancoDadosAdministrador();
@@ -505,8 +512,9 @@ public class TelaAdicionarVendaController extends AnchorPane {
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
 
         this.produtosTable.setItems(data);
-        //this.totalLabel.setText(new DecimalFormat("#,###.00").format(novaVenda.getPrecoTotal()));
-        this.totalLabel.setText(Formatter.dinheiroFormatado(novaVenda.getPrecoTotal()));
+        
+        setPrecoTotalLabel(novaVenda.getPrecoTotal());
+        atualizarDesconto();
         atualizarPrecoParcelas();
     }
     
@@ -660,7 +668,7 @@ public class TelaAdicionarVendaController extends AnchorPane {
     private void atualizarPrecoParcelas() {
         Integer parcela = parcelasSpinner.getValue();
         if (parcela != null) {
-            if (parcela > 1 && !novaVenda.getVendaProdutos().isEmpty()) {
+            if (parcela > 1 && !novaVenda.isEmpty()) {
                 double valor = novaVenda.getPrecoTotal()/parcela;
                 setParcelasLabel(valor);
                 valorParcelaBox.setVisible(true);
@@ -671,10 +679,37 @@ public class TelaAdicionarVendaController extends AnchorPane {
         }
     }
     
-    private void setParcelasLabel(double valor) {
-        Platform.runLater(()-> {
-            valorParcelasLabel.setText(Formatter.dinheiroFormatado(valor));
+    private void setPrecoTotalLabel(double valor) {
+        Platform.runLater(() -> {
+            if (valor == 0) {
+                totalLabel.setText("0.0");
+            } else {
+                totalLabel.setText(Formatter.dinheiroFormatado(valor));
+            }
         });
+    }
+    
+    private void setParcelasLabel(double valor) {
+        Platform.runLater(() -> {
+            if (valor == 0) {
+                valorParcelasLabel.setText("0.0");
+            } else {
+                valorParcelasLabel.setText(Formatter.dinheiroFormatado(valor));
+            }
+        });
+    }
+    
+    private void atualizarDesconto() {
+        if (descontoText.getText().isEmpty() || novaVenda.isEmpty()) {
+            novaVenda.atualizarVenda();
+        } else {
+            novaVenda.atualizarVenda();
+            float percentualDesconto = Float.valueOf(descontoText.getText());
+            float desconto = percentualDesconto/100 * novaVenda.getPrecoTotal();
+            float precoAntigo = novaVenda.getPrecoTotal();
+            novaVenda.setPrecoTotal(precoAntigo - desconto);
+        }
+        setPrecoTotalLabel(novaVenda.getPrecoTotal());
     }
     
 }
