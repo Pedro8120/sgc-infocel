@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root prefHeight="500.0" prefWidth="700.0" stylesheets="@../styles/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <Label styleClass="label-titulo" text="Selecione o Produto" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <bottom>
+            <HBox alignment="CENTER" prefWidth="1200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefWidth="600.0">
+                     <children>
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-cancelar" text="Cancelar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
+                     <children>
+                        <Button fx:id="adicionarButton" alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#adicionarProduto" styleClass="button-finalizar" text="Adicionar Produto" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox alignment="TOP_CENTER" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox>
+                     <children>
+                        <Label text="Pesquisar Produto" />
+                        <TextField fx:id="pesquisaText" />
+                     </children>
+                  </VBox>
+                   <TableView fx:id="produtosTable" focusTraversable="false" VBox.vgrow="ALWAYS">
+                                    <columnResizePolicy>
+                                        <!-- falando sobre erro: https://netbeans.org/bugzilla/show_bug.cgi?id=256522-->
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                    <columns>
+                                        <TableColumn fx:id="marcaColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Marca" />
+                                        <TableColumn fx:id="descricaoColumn" prefWidth="75.0" text="Descrição" />
+                        <TableColumn fx:id="quantidadeColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Quantidade" />
+                        <TableColumn fx:id="precoColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Preço R$" />
+                                    </columns>
+                                    <VBox.margin>
+                                        <Insets top="5.0" />
+                                    </VBox.margin>
+                   </TableView>
+                  <HBox alignment="CENTER_RIGHT">
+                     <children>
+                        <VBox>
+                           <children>
+                              <Label text="Quantidade" />
+                              <ComboBox fx:id="quantidadeComboBox" prefWidth="100.0" />
+                           </children>
+                        </VBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" />
+                     </VBox.margin>
+                  </HBox>
+               </children></VBox>
+         </center>
+      </BorderPane>
+   </children>
+   <styleClass>
+      <String fx:value="Painel-borda" />
+      <String fx:value="Painel" />
+   </styleClass>
+</fx:root>

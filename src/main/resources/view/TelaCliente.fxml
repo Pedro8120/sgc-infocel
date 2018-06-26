@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<fx:root prefHeight="650.0" prefWidth="1200.0" styleClass="Painel" stylesheets="@../styles/default.css" type="AnchorPane" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="270.0" layoutY="182.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <top>
+            <Label styleClass="label-titulo" text="Cliente" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="27.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets bottom="10.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+         <bottom>
+            <HBox alignment="CENTER" prefWidth="1200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox alignment="CENTER" prefWidth="600.0">
+                     <children>
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#cancelarOperacao" styleClass="button-voltar" text="Voltar" />
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="44.0" prefWidth="600.0">
+                     <children>
+                        <Button alignment="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#salvarCliente" prefHeight="44.0" prefWidth="96.0" styleClass="button-salvar" text="Salvar" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+               <BorderPane.margin>
+                  <Insets top="10.0" />
+               </BorderPane.margin>
+            </HBox>
+         </bottom>
+         <center>
+            <VBox alignment="TOP_CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox spacing="20.0">
+                     <children>
+                        <GridPane alignment="TOP_CENTER" hgap="10.0" prefHeight="300.0">
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="120.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="220.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="170.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" maxWidth="-Infinity" prefWidth="160.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints vgrow="SOMETIMES" />
+                              <RowConstraints vgrow="SOMETIMES" />
+                              <RowConstraints vgrow="SOMETIMES" />
+                              <RowConstraints vgrow="SOMETIMES" />
+                              <RowConstraints vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <CheckBox fx:id="editarClienteCheckBox" focusTraversable="false" mnemonicParsing="false" text="Editar informações do Cliente" GridPane.columnSpan="3" />
+                              <TextField fx:id="nomeText" maxWidth="1.7976931348623157E308" GridPane.columnSpan="6" GridPane.rowIndex="2" />
+                              <TextField fx:id="telefoneText" maxWidth="1.7976931348623157E308" promptText="(XX)XXXXX-XXXX" GridPane.columnIndex="6" GridPane.rowIndex="2">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </TextField>
+                              <TextField fx:id="cpfText" maxWidth="1.7976931348623157E308" promptText="XXX.XXX.XXX-XX" GridPane.rowIndex="4" />
+                              <TextField fx:id="rgText" maxWidth="1.7976931348623157E308" promptText="XX.XXX.XXX-XX" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <HBox fx:id="cidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                 <children>
+                                    <ComboBox fx:id="cidadeComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarCidade" styleClass="button-add" />
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="adicionarCidadeBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                 <children>
+                                    <TextField fx:id="adicionarCidadeText" maxWidth="1.7976931348623157E308" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#selecionarCidade" styleClass="button-deletar" />
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="adicionarBairroBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" visible="false" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                                 <children>
+                                    <TextField fx:id="adicionarBairroText" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#selecionarBairro" styleClass="button-deletar" />
+                                 </children>
+                              </HBox>
+                              <HBox fx:id="bairroBox" alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="5.0" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="4">
+                                 <children>
+                                    <ComboBox fx:id="bairroComboBox" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                                    <Button focusTraversable="false" mnemonicParsing="false" onAction="#adicionarBairro" styleClass="button-add" />
+                                 </children>
+                              </HBox>
+                              <TextField fx:id="ruaText" maxWidth="1.7976931348623157E308" GridPane.columnIndex="5" GridPane.rowIndex="4" />
+                              <TextField fx:id="numeroText" maxWidth="1.7976931348623157E308" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+                              <Label text="Nome Completo" GridPane.rowIndex="1" />
+                              <Label text="Telefone" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                              <Label text="CPF" GridPane.rowIndex="3" />
+                              <Label text="RG" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Label text="Cidade" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Label text="Rua" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                              <Label text="Bairro" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <Label text="Número" GridPane.columnIndex="6" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </VBox>
+                  <VBox spacing="5.0">
+                     <children>
+                        <Label text="Compras e Manutenções">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="operacoesTable" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+                                    <columnResizePolicy>
+                                        <!-- falando sobre erro: https://netbeans.org/bugzilla/show_bug.cgi?id=256522-->
+                                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                    </columnResizePolicy>
+                                    <columns>
+                                        <TableColumn fx:id="categoriaColumn" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Categoria" />
+                              <TableColumn fx:id="descricaoColumn" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Descrição" />
+                                        <TableColumn fx:id="funcionarioColumn" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" text="Funcionário" />
+                              <TableColumn fx:id="dataColumn" maxWidth="120.0" minWidth="120.0" prefWidth="120.0" text="Data" />
+                              <TableColumn fx:id="valorColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Valor R$" />
+                                    </columns>
+                                    <VBox.margin>
+                                        <Insets />
+                                    </VBox.margin>
+                   </TableView>
+                     </children>
+                  </VBox>
+               </children></VBox>
+         </center>
+      </BorderPane>
+   </children>
+</fx:root>
