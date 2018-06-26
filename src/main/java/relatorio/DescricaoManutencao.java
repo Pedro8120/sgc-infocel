@@ -93,7 +93,7 @@ public class DescricaoManutencao extends Thread {
         parameters.put("cep_empresa", SoftwareSpecifications.CEP);
 
         try {
-             // passando endereço do cliente
+            // passando endereço do cliente
             parameters.put("endereco_cliente", ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getEnderecoCliente());
             // passando data como parametros por cauda da formatacao
             parameters.put("data_manutencao", DateUtils.formatDate(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro()));
@@ -105,9 +105,8 @@ public class DescricaoManutencao extends Thread {
             //setando o icone
             parameters.put("src_logo", resource);
             // caminho arquivo jasper
-            resourceAsStream = this.getClass().getResourceAsStream("descricaoManutencao.jasper");
+            resourceAsStream = getClass().getClassLoader().getResourceAsStream("relatorio/descricaoManutencao.jasper");
             // caminho
-            //srcSalvarRelatorio = new File("relatorios/manutencoes/" + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
             srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Manutencoes" + barra + DateUtils.formatDate2(ControleDAO.getBanco().getManutencaoDAO().buscarPorId(id).getDataCadastro())).getCanonicalPath();
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
