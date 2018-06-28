@@ -48,10 +48,11 @@ public class Painel extends Application {
         palco.show();
         
         String diretorio = System.getProperty("java.class.path");
+        System.out.println(System.getProperty("path.separator"));
         diretorio = diretorio.replaceAll("SGC-InfoCel.jar", "");
         
         try {
-            config = (Config) Arquivo.importar(diretorio);
+            config = (Config) Arquivo.importar("");
             System.out.println("Arquivo de Configurações encontrado!");
         } catch (Exception ex) {
             System.err.println("Arquivo de Configurações não encontrado!");
