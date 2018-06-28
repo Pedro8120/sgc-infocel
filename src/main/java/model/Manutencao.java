@@ -116,11 +116,7 @@ public class Manutencao implements Comparable<Manutencao> {
     }
 
     public String getDataPrevisaoEntregaFormatado() {
-
-        if (dataPrevisaoEntrega != null) {
-            return DateUtils.formatDate(dataPrevisaoEntrega);
-        }
-        return "00/00/00";
+        return dataPrevisaoEntrega != 0 ? DateUtils.formatDate(dataPrevisaoEntrega) : "";
     }
 
     public void setDataPrevisaoEntrega(Long dataPrevisaoEntrega) {

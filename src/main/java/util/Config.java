@@ -37,4 +37,12 @@ public class Config implements Serializable {
     public void salvarArquivo() throws Exception {
         Arquivo.gravar(this, DIRETORIO);
     }
+    
+    public void verificar(String diretorio) {
+        if (!DIRETORIO.equals(diretorio)) {
+            DIRETORIO = diretorio;
+            DIRETORIO_BACKUP = DIRETORIO + "Backup_SGC" + getBarra();
+            DIRETORIO_RELATORIOS = DIRETORIO + "Relatorios" + getBarra();
+        }
+    }
 }

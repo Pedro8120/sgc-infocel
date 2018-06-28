@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import util.Arquivo;
 import util.Config;
 import util.SoftwareSpecifications;
+import util.alerta.Alerta;
 
 /**
  *
@@ -48,11 +49,12 @@ public class Painel extends Application {
         palco.show();
         
         String diretorio = System.getProperty("java.class.path");
-        System.out.println(System.getProperty("path.separator"));
-        diretorio = diretorio.replaceAll("SGC-InfoCel.jar", "");
-        
+        String jarName = new java.io.File(Painel.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getName();
+        diretorio = diretorio.replaceAll(jarName, "");
+
         try {
-            config = (Config) Arquivo.importar("");
+            config = (Config) Arquivo.importar(diretorio);
+            config.verificar(diretorio);
             System.out.println("Arquivo de Configurações encontrado!");
         } catch (Exception ex) {
             System.err.println("Arquivo de Configurações não encontrado!");

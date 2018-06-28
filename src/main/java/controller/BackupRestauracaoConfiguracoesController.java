@@ -73,7 +73,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnBackup.setDisable(false);
-        btnImportar.setDisable(false);
+        //btnImportar.setDisable(false);
 
         config = Painel.config;
         stackPane.getChildren().add(indicator);

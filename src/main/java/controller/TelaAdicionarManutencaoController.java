@@ -322,8 +322,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     this.novaManutencao.setFormaPagamento(pagamento);
                     this.novaManutencao.setQuantidadeParcelas(parcelas);
                     this.novaManutencao.setDataCadastro(dataCadastro);
-                    this.novaManutencao.setDataEntrega(null);
                     this.novaManutencao.setDataPrevisaoEntrega(dataPrevisao);
+                    this.novaManutencao.setDataEntrega(null);
                     this.novaManutencao.setMarca(marca);
                     this.novaManutencao.setCor(cor);
                     this.novaManutencao.setModelo(modelo);
