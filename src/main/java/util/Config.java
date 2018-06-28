@@ -14,7 +14,7 @@ public class Config implements Serializable {
     
     public Config(String diretorio) {
         DIRETORIO = diretorio;
-        DIRETORIO_BACKUP = DIRETORIO + "Backup SGC" + getBarra();
+        DIRETORIO_BACKUP = DIRETORIO + "Backup_SGC" + getBarra();
         BACKUP_AUTOMATICO = false;
         BACKUP_A_CADA_DIA = 1;
         ULTIMO_BACKUP = null;

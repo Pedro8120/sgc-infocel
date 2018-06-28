@@ -323,7 +323,7 @@ public class DateUtils {
             sMinuto = String.valueOf(minuto);
         }
         
-        data += " - " + sHora + ":" + sMinuto;
+        data += "-" + sHora + ":" + sMinuto;
 
         return data;
     }

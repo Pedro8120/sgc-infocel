@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.SQLException;
 import org.apache.log4j.Logger;
+import util.DateUtils;
 
 public class BackupRestauracao extends DAO {
 
@@ -30,12 +31,13 @@ public class BackupRestauracao extends DAO {
     private static String pass = "teste";
    // private static String path = "/home/Admin/abc/";
      */
-    public static boolean exportar(String path) {
-        String dumpCommand = "mysqldump -u " + ConexaoBanco.USERNAME + " -p"
-                + ConexaoBanco.PASSWORD + " " + ConexaoBanco.DATABASE + ConexaoBanco.getTabelas();
+    public static String exportar(String path) {
+        String dumpCommand = "mysqldump -u " + ConexaoBanco.USERNAME
+                + " -p" + ConexaoBanco.PASSWORD + " "
+                + ConexaoBanco.DATABASE + ConexaoBanco.getTabelas();
 
         Runtime rt = Runtime.getRuntime();
-        File test = new File(path);
+        File test = new File(path + "backup.sql");
         PrintStream ps;
         try {
             Process child = rt.exec(dumpCommand);
@@ -50,12 +52,17 @@ public class BackupRestauracao extends DAO {
             while ((ch = err.read()) != -1) {
                 System.out.write(ch);
             }
+
+            String nome = "Backup_" + DateUtils.getDataHoraPonto(System.currentTimeMillis());
+            String novoPath = (test.getAbsolutePath()).replace("backup", nome);
+            test.renameTo(new File(novoPath));
+
+            return nome;
         } catch (Exception ex) {
             Logger.getLogger(BackupRestauracao.class).error(ex);
-            return false;
+            return null;
         }
 
-        return true;
     }
 
     public static boolean importar(String path) throws SQLException, FileNotFoundException {

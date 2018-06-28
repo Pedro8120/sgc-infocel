@@ -178,14 +178,13 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         btnImportar.setVisible(false);
         indicator.setVisible(true);
 
-        String nome = "Backup " + DateUtils.getDataHoraPonto(System.currentTimeMillis());
-        String path = caminhoBackupText.getText() + Config.getBarra() + nome + ".sql";
-
+       // String nome = "Backup_" + DateUtils.getDataHoraPonto(System.currentTimeMillis());
+        String path = caminhoBackupText.getText() + Config.getBarra();// + nome + ".sql";
 
         //Metodo executado numa Thread separada
-        SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
+        SwingWorker<String, String> worker = new SwingWorker<String, String>() {
             @Override
-            protected Boolean doInBackground() throws Exception {
+            protected String doInBackground() throws Exception {
                 File pasta = new File(path);
                 if (pasta.exists() == false) {
                     pasta.mkdirs();
@@ -206,8 +205,8 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
                 super.done(); //To change body of generated methods, choose Tools | Templates.
 
                 try {
-                    if (get()) {
-                        Alerta.info("Nome do arquivo: " + (new File(path)).getName(), "Backup realizado com sucesso!");
+                    if (get() != null) {
+                        Alerta.info("Nome do arquivo: " + get(), "Backup realizado com sucesso!");
                         atualizarDatas(System.currentTimeMillis());
                     } else {
                         Alerta.erro("Erro ao realizar backup");
@@ -289,28 +288,23 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("Escolha o diretório para Backup");
 
-        File pasta = new File(config.DIRETORIO_BACKUP);
-//        if (pasta.exists() == false) {
-//            pasta.mkdirs();
-//        }
-
         if ((new File(config.DIRETORIO_BACKUP).exists()))
             chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
 
         File arquivo = chooser.showDialog(Painel.palco);
 
         if (arquivo != null) {
-            String diretorio = arquivo.getAbsolutePath() + Config.getBarra();
+            String diretorio = arquivo.getAbsolutePath();
             System.out.println(diretorio);
 
             caminhoBackupText.setText(diretorio);
-            config.DIRETORIO_BACKUP = diretorio;
+          /*  config.DIRETORIO_BACKUP = diretorio;
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
                 Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
-            }
+            }*/
         }
     }
 
