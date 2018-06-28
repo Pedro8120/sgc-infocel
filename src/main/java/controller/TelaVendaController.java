@@ -102,6 +102,8 @@ public class TelaVendaController extends AnchorPane {
     private Label totalLabel;
     @FXML
     private Label parcelasLabel;
+    @FXML
+    private TextField descontoText;
 
     @FXML
     private TableView<VendaProduto> produtosTable;
@@ -139,24 +141,6 @@ public class TelaVendaController extends AnchorPane {
 
     @FXML
     public void initialize() {
-//        Formatter.mascaraCPF(cpfText);//Formatador para CPF
-//        Formatter.mascaraRG(rgText);//Formatador para Rg
-//        Formatter.mascaraTelefone(telefoneText);//Formatador para Telefone
-//
-//        Formatter.toUpperCase(nomeText, adicionarCidadeText, ruaText, adicionarBairroText, numeroText);
-//
-//        editarClienteCheckBox.setVisible(false);
-//
-//        //Campos ficam desativados enquanto CheckBox esta desativado
-//        nomeText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        telefoneText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        cpfText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        rgText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        cidadeBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-//        bairroBox.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-//        ruaText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        numeroText.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-
         boolean desabilitar = true;
         
         this.nomeText.setDisable(desabilitar);
@@ -171,12 +155,6 @@ public class TelaVendaController extends AnchorPane {
         this.dataDatePicker.setDisable(desabilitar);
         
         valorParcelaBox.setVisible(false);
-
-//        dataDatePicker.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        vendedorComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        formarPagComboBox.editableProperty().bind(editarClienteCheckBox.selectedProperty());
-//        parcelasSpinner.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
-        
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
@@ -232,9 +210,6 @@ public class TelaVendaController extends AnchorPane {
         
         SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, parcelas);
         parcelasSpinner.setValueFactory(valores);
-        
-        
-        //this.parcelasSpinner.setValueFactory(valores);
     }
 
     public void setVenda(Venda venda) {
@@ -281,12 +256,23 @@ public class TelaVendaController extends AnchorPane {
         this.quantidadeColumn.setCellValueFactory(new PropertyValueFactory<>("quantidade"));
         this.totalColumn.setCellValueFactory(new PropertyValueFactory<>("precoTotal"));
         atualizarPrecoParcelas();
-
+        
+        float preco = venda.getPrecoTotal();
+        float precoAtualizado = 0f;
+        
+        for (VendaProduto vp : listaProdutoVenda) {
+            precoAtualizado += vp.getPrecoTotal();
+        }
+        
+        float diferenca = precoAtualizado - preco;
+        Float porcentagem = (diferenca * 100) / precoAtualizado;
+        Platform.runLater(() -> descontoText.setText(String.valueOf(porcentagem.intValue())));
+        
         Platform.runLater(() -> {
             this.totalLabel.setText(new DecimalFormat("#,###.00").format(venda.getPrecoTotal()));
+            this.produtosTable.setItems(data);//Adiciona a lista de clientes na Tabela
         });
         
-        this.produtosTable.setItems(data);//Adiciona a lista de clientes na Tabela
     }
     
     private void atualizarPrecoParcelas() {
@@ -295,10 +281,10 @@ public class TelaVendaController extends AnchorPane {
             if (parcela > 1 && !listaProdutoVenda.isEmpty()) {
                 double valor = venda.getPrecoTotal()/parcela;
                 setParcelasLabel(valor);
-                valorParcelaBox.setVisible(true);
+                Platform.runLater(() -> valorParcelaBox.setVisible(true));
             } else {
                 setParcelasLabel(0);
-                valorParcelaBox.setVisible(false);
+                Platform.runLater(() -> valorParcelaBox.setVisible(false));
             }
         }
     }

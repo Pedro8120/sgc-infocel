@@ -19,7 +19,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Font;
 import javax.swing.SwingWorker;
 import model.Administrador;
 import org.apache.log4j.Logger;
@@ -48,7 +47,6 @@ public class LoginController extends AnchorPane {
     private ProgressIndicator indicator = new ProgressIndicator();
 
     public LoginController(BorderPane painelPrincipal) {
-        Font.loadFont(LoginController.class.getResource("cassio.ttf").toExternalForm(), 10);
         this.painelPrincipal = painelPrincipal;
 
         try {
@@ -78,7 +76,6 @@ public class LoginController extends AnchorPane {
 
     @FXML
     private void logar() {
-
         boolean vazio = Formatter.isEmpty(usuarioText, senhaPassword);
 
         String login = usuarioText.getText();
@@ -119,10 +116,8 @@ public class LoginController extends AnchorPane {
                         autenticarSenha(login, senha);
                     } else {
                         chamarAlerta("Erro", "Usuário não encontrado");
-                        System.out.println("Login não encontrado");
                         limparLogin();//Apaga o texto que esta no TextField de Login
                         limparSenha();//Apaga o texto que esta no TextField de Login
-
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(getClass()).error(ex);
@@ -133,7 +128,6 @@ public class LoginController extends AnchorPane {
                     usuarioText.setDisable(false);
                     senhaPassword.setDisable(false);
                 }
-
             }
         };
 

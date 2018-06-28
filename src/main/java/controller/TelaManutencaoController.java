@@ -142,16 +142,14 @@ public class TelaManutencaoController extends AnchorPane {
         this.vendedorComboBox.setDisable(desabilitar);
         this.dataDatePicker.setDisable(desabilitar);
         
-        
         this.estadoComboBox.getItems().add("ABERTO");
         this.estadoComboBox.getItems().add("FINALIZADO");
-        
         
         corColorPicker.setOnAction((e) -> {
             corRectangle.setFill(corColorPicker.getValue());
         });
         
-        Platform.runLater(() -> descricaoArea.requestFocus() );
+        Platform.runLater(() -> descricaoArea.requestFocus());
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

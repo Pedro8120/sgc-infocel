@@ -14,7 +14,6 @@ import javafx.stage.Stage;
 import util.Arquivo;
 import util.Config;
 import util.SoftwareSpecifications;
-import util.alerta.Alerta;
 
 /**
  *
