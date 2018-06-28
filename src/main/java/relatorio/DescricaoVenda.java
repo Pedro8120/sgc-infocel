@@ -18,7 +18,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import org.apache.log4j.Logger;
-import util.Config;
 import util.DateUtils;
 import util.SoftwareSpecifications;
 
@@ -64,7 +63,7 @@ public class DescricaoVenda extends Thread {
     }
 
     public void gerarDescricaoVenda(Long id) throws IOException {
-        String barra = Config.getBarra();
+        String barra = System.getProperty("file.separator");
         try {
             // fazendo conexao com o banco
             this.stm = conn.getConnection().createStatement();
@@ -103,8 +102,9 @@ public class DescricaoVenda extends Thread {
             //setando o icones
             parameters.put("src_logo", resource);
             // caminho arquivo jasper
-            resourceAsStream = getClass().getClassLoader().getResourceAsStream("relatorio/descricaoVenda.jasper");
+            resourceAsStream = this.getClass().getResourceAsStream("descricaoVenda.jasper");
             // caminho
+            //srcSalvarRelatorio = new File("relatorios/vendas/" + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
             srcSalvarRelatorio = new File(Painel.config.DIRETORIO_RELATORIOS + "Vendas" + barra + DateUtils.formatDate2(ControleDAO.getBanco().getVendaDAO().buscarPorId(id).getData())).getCanonicalPath();
             File file = new File(srcSalvarRelatorio);
             // verificar se um caminho  existe
