@@ -73,7 +73,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         btnBackup.setDisable(false);
-        //btnImportar.setDisable(false);
+        btnImportar.setDisable(false);
 
         config = Painel.config;
         stackPane.getChildren().add(indicator);
@@ -249,7 +249,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                if (BackupRestauracao.importar(caminhoBackupText.getText())) {
+                if (new BackupRestauracao().importar(caminhoBackupText.getText())) {
                     return true;
                 } else {
                     return false;

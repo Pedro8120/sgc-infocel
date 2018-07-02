@@ -18,14 +18,15 @@ import org.apache.log4j.Logger;
 public class ConexaoBanco {
     
     //BANCO DE DADOS NA REDE
-    public static final String URL = "jdbc:mysql://neolig.com:3306/";
+   // public static final String URL = "jdbc:mysql://neolig.com:3306/";
+    public static final String URL = "jdbc:mysql://localhost:3306/";
     public static final String DATABASE = "neoli831_teste";
     public static final String DRIVER = "com.mysql.jdbc.Driver";
     public static final String USERNAME = "neoli831_teste";
     public static final String PASSWORD = "teste";
 
     //BANCO DE DADOS LOCAL
-//    private static final String URL = "jdbc:mysql://localhost:3306/";
+//    public static final String URL = "jdbc:mysql://localhost:3306/";
 //    public static final String DATABASE = "sgc_infocel";
 //    public static final String DRIVER = "com.mysql.jdbc.Driver";
 //    public static final String USERNAME = "root";

@@ -14,12 +14,12 @@ import java.sql.ResultSet;
  */
 public class DAO {
 
-    private Connection conector = ConexaoBanco.instancia().getConnection();
+    private static Connection conector = ConexaoBanco.instancia().getConnection();
    
     public DAO() {
     }
 
-    public Connection getConector() {
+    public static Connection getConector() {
         if (conector == null) {
             ConexaoBanco.instancia = new ConexaoBanco();
             conector = ConexaoBanco.instancia().getConnection();
