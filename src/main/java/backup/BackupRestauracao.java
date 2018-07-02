@@ -1,16 +1,15 @@
 package backup;
 
 /**
- *
  * @author pedro
  */
+
 import banco.ConexaoBanco;
 import banco.dao.DAO;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.PrintStream;
+
+import java.io.*;
 import java.sql.SQLException;
+
 import org.apache.log4j.Logger;
 import util.DateUtils;
 
@@ -24,13 +23,13 @@ public class BackupRestauracao extends DAO {
     private static String pass = "teste";
      */
 
- /* private static String ip = "localhost";
-   // private static String port = "3306";
-    private static String database = "neoli831_teste";
-    private static String user = "neoli831_teste";
-    private static String pass = "teste";
-   // private static String path = "/home/Admin/abc/";
-     */
+    /* private static String ip = "localhost";
+      // private static String port = "3306";
+       private static String database = "neoli831_teste";
+       private static String user = "neoli831_teste";
+       private static String pass = "teste";
+      // private static String path = "/home/Admin/abc/";
+        */
     public static String exportar(String path) {
         String dumpCommand = "mysqldump -u " + ConexaoBanco.USERNAME
                 + " -p" + ConexaoBanco.PASSWORD + " "
@@ -66,9 +65,22 @@ public class BackupRestauracao extends DAO {
     }
 
     public static boolean importar(String path) throws SQLException, FileNotFoundException {
-     
-        return true;
+        // Processo
+        try {
+            String[] executeCmd = new String[]{
+                    "mysql", "-hlocalhost", "-port3306", "--user=" + ConexaoBanco.USERNAME,
+                            "--password=" + ConexaoBanco.PASSWORD, "-e", "source " + path};
 
+            Process p = Runtime.getRuntime().exec(executeCmd);
+            @SuppressWarnings("unused")
+            int in = p.waitFor();
+        } catch (InterruptedException x) {
+            x.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return true;
     }
 
 }

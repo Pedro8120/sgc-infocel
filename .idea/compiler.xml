@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="sgc-infocel" />
+        <module name="SGC-INFOCEL" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="sgc-infocel" target="8" />
+      <module name="SGC-INFOCEL" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

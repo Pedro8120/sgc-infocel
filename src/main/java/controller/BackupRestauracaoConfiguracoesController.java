@@ -178,7 +178,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         btnImportar.setVisible(false);
         indicator.setVisible(true);
 
-       // String nome = "Backup_" + DateUtils.getDataHoraPonto(System.currentTimeMillis());
+        // String nome = "Backup_" + DateUtils.getDataHoraPonto(System.currentTimeMillis());
         String path = caminhoBackupText.getText() + Config.getBarra();// + nome + ".sql";
 
         //Metodo executado numa Thread separada
@@ -237,7 +237,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
         Dialogo.Resposta resposta = Alerta.confirmar("Deseja realmente importar o Banco de Dados " + arquivo.getName());
         if (resposta == Dialogo.Resposta.YES) {
-
+            importarBancoDados();
         }
 
     }
