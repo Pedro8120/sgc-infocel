@@ -3,7 +3,6 @@ package backup;
 /**
  * @author pedro
  */
-
 import banco.ConexaoBanco;
 import banco.dao.DAO;
 import org.apache.log4j.Logger;
@@ -81,11 +80,12 @@ public class BackupRestauracao extends DAO {
 
     public boolean importar(String pathImport) {
         //evita bagunçar o bd que está na nuvem
-        if (ConexaoBanco.URL.contains("neolig"))
+        if (ConexaoBanco.URL.contains("neolig")) {
             return false;
+        }
 
         //primeiro faz backup do banco
-        String backup = exportar((new File("")).getAbsolutePath() + "/");
+        String backup = exportar((new File("")).getAbsolutePath() + Config.getBarra());
 
         try {
             //exclui o bd
@@ -99,7 +99,7 @@ public class BackupRestauracao extends DAO {
 
         try {
             //cria o bd
-            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource("script/script_bd.sql").getFile()));
+            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource("script" + Config.getBarra() + "script_bd.sql").getFile()));
 
             //insere os dados
             executeSqlScript(getConector(), new File(pathImport));
@@ -107,8 +107,8 @@ public class BackupRestauracao extends DAO {
             //exclui o backup criado
             (new File(getClass().getClassLoader().getResource(backup).getFile())).delete();
         } catch (Exception e) {
-            importar(getClass().getClassLoader().getResource(backup).getFile());
-            e.printStackTrace();
+            //importar(getClass().getClassLoader().getResource(backup).getFile());
+            //e.printStackTrace();
         }
 
         return true;
@@ -132,17 +132,19 @@ public class BackupRestauracao extends DAO {
             String rawStatement = scanner.next() + delimiter;
             try {
                 // Execute statement
-                currentStatement = conn.createStatement();
-                currentStatement.execute(rawStatement);
+                if (!rawStatement.isEmpty()) {
+                    currentStatement = conn.createStatement();
+                    currentStatement.execute(rawStatement);
+                }
             } catch (SQLException e) {
-                e.printStackTrace();
+              //  e.printStackTrace();
             } finally {
                 // Release resources
                 if (currentStatement != null) {
                     try {
                         currentStatement.close();
                     } catch (SQLException e) {
-                        e.printStackTrace();
+                      //  e.printStackTrace();
                     }
                 }
                 currentStatement = null;
