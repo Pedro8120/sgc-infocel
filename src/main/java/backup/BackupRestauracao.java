@@ -3,6 +3,7 @@ package backup;
 /**
  * @author pedro
  */
+
 import banco.ConexaoBanco;
 import banco.dao.DAO;
 import org.apache.log4j.Logger;
@@ -99,13 +100,13 @@ public class BackupRestauracao extends DAO {
 
         try {
             //cria o bd
-            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource( "script_bd.sql").getFile()));
+            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource("script_bd.sql").getFile()));
 
             //insere os dados
             executeSqlScript(getConector(), new File(pathImport));
 
             //exclui o backup criado
-            File file = new File(backup+".sql");
+            File file = new File(backup + ".sql");
             file.delete();
         } catch (Exception e) {
             //importar(getClass().getClassLoader().getResource(backup).getFile());
@@ -138,14 +139,14 @@ public class BackupRestauracao extends DAO {
                     currentStatement.execute(rawStatement);
                 }
             } catch (SQLException e) {
-              //  e.printStackTrace();
+                //  e.printStackTrace();
             } finally {
                 // Release resources
                 if (currentStatement != null) {
                     try {
                         currentStatement.close();
                     } catch (SQLException e) {
-                      //  e.printStackTrace();
+                        //  e.printStackTrace();
                     }
                 }
                 currentStatement = null;
