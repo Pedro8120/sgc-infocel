@@ -119,8 +119,10 @@ public class TelaSelecionarProdutoController extends AnchorPane {
                 for (int i = 1; i <= quantidade; i++) {
                     lista.add((float) i);
                 }
-                quantidadeComboBox.setItems(FXCollections.observableArrayList(lista));
-                quantidadeComboBox.getSelectionModel().select(0);
+                Platform.runLater(() -> {
+                    quantidadeComboBox.setItems(FXCollections.observableArrayList(lista));
+                    quantidadeComboBox.getSelectionModel().select(0);
+                });
             }
         });
     }

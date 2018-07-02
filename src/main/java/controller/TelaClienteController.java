@@ -19,9 +19,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -139,6 +141,43 @@ public class TelaClienteController extends AnchorPane {
         ruaText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         numeroText.disableProperty().bind(editarClienteCheckBox.selectedProperty().not());
         
+        operacoesTable.setOnMouseClicked((event) -> {
+            if (event.getButton().equals(MouseButton.PRIMARY)) {
+                if (event.getClickCount() == 2) {
+                    Operacao op = operacoesTable.getSelectionModel().getSelectedItem();
+                    if (op.getVenda() != null) {
+                        TelaVendaController tela = new TelaVendaController(painelPrincipal);
+                        tela.setVenda(op.getVenda());
+                        tela.voltarTelaInicial(true);
+                        this.adicionarPainelInterno(tela);
+                    } else if (op.getManutencao() != null) {
+                        TelaManutencaoController tela = new TelaManutencaoController(painelPrincipal);
+                        tela.setManutencao(op.getManutencao());
+                        tela.voltarTelaInicial(true);
+                        this.adicionarPainelInterno(tela);
+                    }
+                }
+            }
+        });
+        
+        operacoesTable.setRowFactory(tv -> new TableRow<Operacao>() {
+            @Override
+            public void updateItem(Operacao item, boolean empty) {
+                super.updateItem(item, empty);
+                
+                if (item == null) {
+                    setStyle("");
+                } else if (item.getManutencao() != null) {
+                    if (item.getManutencao().isFinalizado()) {
+                        setStyle("-fx-border-color: #8BC34A;");
+                    } else {
+                        setStyle("-fx-border-color: #F44336;");
+                    }
+                }
+                
+            }
+        });
+        
         cidadeComboBox.setOnAction((e) -> {
             Cidade cidade = cidadeComboBox.getValue();
             bairroComboBox.getSelectionModel().select(null);
@@ -231,9 +270,6 @@ public class TelaClienteController extends AnchorPane {
     }
 
     private void atualizarOperacoes(Cliente cliente) {
-        //String dataInicio = DateUtils.formatDate(data.getYear(), data.getMonthValue(), data.getDayOfMonth());
-        //String dataFinal = DateUtils.formatDate(data.plusDays(1).getYear(), data.plusDays(1).getMonthValue(), data.plusDays(1).getDayOfMonth());
-
         //Metodo executado numa Thread separada
         SwingWorker<List, List> worker = new SwingWorker<List, List>() {
             @Override
@@ -281,7 +317,7 @@ public class TelaClienteController extends AnchorPane {
         this.dataColumn.setCellValueFactory(new PropertyValueFactory<>("dataEditada"));
         this.valorColumn.setCellValueFactory(new PropertyValueFactory<>("valor"));
 
-        this.operacoesTable.setItems(data);//Adiciona a lista de clientes na Tabela
+        Platform.runLater(() -> operacoesTable.setItems(data));
     }
 
     @FXML
@@ -330,7 +366,7 @@ public class TelaClienteController extends AnchorPane {
                 try {
                     listaCidades = this.get();
                     ObservableList cidades = FXCollections.observableArrayList(listaCidades);
-                    cidadeComboBox.setItems(cidades);
+                    Platform.runLater(() -> cidadeComboBox.setItems(cidades));
                 } catch (InterruptedException | ExecutionException ex) {
                     Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
@@ -356,7 +392,7 @@ public class TelaClienteController extends AnchorPane {
                 try {
                     listaBairros = this.get();
                     ObservableList bairros = FXCollections.observableArrayList(listaBairros);
-                    bairroComboBox.setItems(bairros);
+                    Platform.runLater(() -> bairroComboBox.setItems(bairros));
                 } catch (InterruptedException | ExecutionException ex) {
                     Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");

@@ -4,7 +4,6 @@ import banco.ControleDAO;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.logging.Level;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -143,16 +142,14 @@ public class TelaManutencaoController extends AnchorPane {
         this.vendedorComboBox.setDisable(desabilitar);
         this.dataDatePicker.setDisable(desabilitar);
         
-        
         this.estadoComboBox.getItems().add("ABERTO");
         this.estadoComboBox.getItems().add("FINALIZADO");
-        
         
         corColorPicker.setOnAction((e) -> {
             corRectangle.setFill(corColorPicker.getValue());
         });
         
-        Platform.runLater(() -> descricaoArea.requestFocus() );
+        Platform.runLater(() -> descricaoArea.requestFocus());
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {

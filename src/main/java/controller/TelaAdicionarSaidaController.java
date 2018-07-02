@@ -216,8 +216,7 @@ public class TelaAdicionarSaidaController extends AnchorPane {
                     listaAdministrador = this.get();
                     ObservableList administradores = FXCollections.observableArrayList(listaAdministrador);
                     administradorCombo.setItems(administradores);
-
-                    administradorCombo.getSelectionModel().select(LoginController.admLogado);
+                    Platform.runLater(() -> administradorCombo.getSelectionModel().select(LoginController.admLogado));
                 } catch (InterruptedException | ExecutionException ex) {
                     Logger.getLogger(getClass()).error(ex);
                     Alerta.erro("Erro ao consultar Banco de Dados");

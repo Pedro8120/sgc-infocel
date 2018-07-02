@@ -36,7 +36,8 @@ public class PainelController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
-        TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
+        //TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
+        LoginController telaLogin = new LoginController(painelPrincipal);
         this.adicionarPainelInterno(telaLogin);
     }
     
@@ -55,7 +56,7 @@ public class PainelController implements Initializable {
     
     @FXML
     private void sair() {
-        TelaLoginController telaLogin = new TelaLoginController(painelPrincipal);
+        LoginController telaLogin = new LoginController(painelPrincipal);
         this.adicionarPainelInterno(telaLogin);
         this.barraMenu.setVisible(false);//Deixando a Barra de Menu invisivel
     }

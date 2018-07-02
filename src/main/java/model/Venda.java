@@ -150,8 +150,9 @@ public class Venda implements Comparable<Venda> {
         }
     }
 
-    public void atualizarVenda() {
+    public float atualizarVenda() {
         precoTotal = calcularPrecoTotal();
+        return precoTotal;
     }
     
     @Override

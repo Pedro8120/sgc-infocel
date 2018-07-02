@@ -322,8 +322,8 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     this.novaManutencao.setFormaPagamento(pagamento);
                     this.novaManutencao.setQuantidadeParcelas(parcelas);
                     this.novaManutencao.setDataCadastro(dataCadastro);
-                    this.novaManutencao.setDataEntrega(null);
                     this.novaManutencao.setDataPrevisaoEntrega(dataPrevisao);
+                    this.novaManutencao.setDataEntrega(null);
                     this.novaManutencao.setMarca(marca);
                     this.novaManutencao.setCor(cor);
                     this.novaManutencao.setModelo(modelo);
@@ -567,6 +567,7 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
                     listaAdministrador = this.get();
                     ObservableList administradores = FXCollections.observableArrayList(listaAdministrador);
                     vendedorComboBox.setItems(administradores);
+                    Platform.runLater(() -> vendedorComboBox.getSelectionModel().select(LoginController.admLogado));
                 } catch (InterruptedException | ExecutionException ex) {
                     Logger.getLogger(getClass()).error(ex);
                     chamarAlerta("Erro ao consultar Banco de Dados");
