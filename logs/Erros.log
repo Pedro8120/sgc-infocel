@@ -7,3 +7,21 @@
 02/07/18 02:36 [AWT-EventQueue-0] ERROR controller.BackupRestauracaoConfiguracoesController$2:276 - java.util.concurrent.ExecutionException: java.lang.NullPointerException
 02/07/18 02:42 [AWT-EventQueue-0] ERROR controller.BackupRestauracaoConfiguracoesController$2:276 - java.util.concurrent.ExecutionException: java.lang.NullPointerException
 02/07/18 02:44 [AWT-EventQueue-0] ERROR controller.BackupRestauracaoConfiguracoesController$2:276 - java.util.concurrent.ExecutionException: java.lang.NullPointerException
+02/07/18 06:08 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:08 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:08 [AWT-EventQueue-0] ERROR controller.LoginController$1:123 - java.util.concurrent.ExecutionException: java.lang.NullPointerException
+02/07/18 06:11 [AWT-EventQueue-0] ERROR controller.AdministradorConfiguracoesController$1:296 - java.util.concurrent.ExecutionException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'neoli831_teste.view_administrador' doesn't exist
+02/07/18 06:11 [AWT-EventQueue-0] ERROR controller.AdministradorConfiguracoesController$1:296 - java.util.concurrent.ExecutionException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'neoli831_teste.view_administrador' doesn't exist
+02/07/18 06:11 [AWT-EventQueue-0] ERROR controller.AdministradorConfiguracoesController$1:296 - java.util.concurrent.ExecutionException: com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'neoli831_teste.view_administrador' doesn't exist
+02/07/18 06:16 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:16 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:16 [AWT-EventQueue-0] ERROR controller.LoginController$1:123 - java.util.concurrent.ExecutionException: java.lang.NullPointerException
+02/07/18 06:20 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:20 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:20 [AWT-EventQueue-0] ERROR controller.LoginController$1:123 - java.util.concurrent.ExecutionException: java.lang.NullPointerException
+02/07/18 06:25 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:25 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:25 [AWT-EventQueue-0] ERROR controller.LoginController$1:123 - java.util.concurrent.ExecutionException: java.lang.NullPointerException
+02/07/18 06:34 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:34 [SwingWorker-pool-2-thread-1] ERROR banco.ConexaoBanco:47 - com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Unknown database 'neoli831_teste'
+02/07/18 06:34 [AWT-EventQueue-0] ERROR controller.LoginController$1:123 - java.util.concurrent.ExecutionException: java.lang.NullPointerException

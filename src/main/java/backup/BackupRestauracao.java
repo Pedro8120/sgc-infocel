@@ -25,8 +25,8 @@ public class BackupRestauracao extends DAO {
         String data = DateUtils.getDataHoraPonto(System.currentTimeMillis());
         data = data.replace(".", "_");
         data = data.replace("-", "__");
-        data = data.replace(":", "H");
-        data = data + "M";
+        data = data.replace(":", "h");
+        data = data + "m";
         String nome = "backup_" + data;
 
         if (Config.isWindows()) {
@@ -99,13 +99,14 @@ public class BackupRestauracao extends DAO {
 
         try {
             //cria o bd
-            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource("script" + Config.getBarra() + "script_bd.sql").getFile()));
+            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource( "script_bd.sql").getFile()));
 
             //insere os dados
             executeSqlScript(getConector(), new File(pathImport));
 
             //exclui o backup criado
-            (new File(getClass().getClassLoader().getResource(backup).getFile())).delete();
+            File file = new File(backup+".sql");
+            file.delete();
         } catch (Exception e) {
             //importar(getClass().getClassLoader().getResource(backup).getFile());
             //e.printStackTrace();
