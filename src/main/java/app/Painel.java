@@ -5,6 +5,7 @@
  */
 package app;
 
+import controller.BackupRestauracaoConfiguracoesController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,7 +14,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import util.Arquivo;
 import util.Config;
+import util.DateUtils;
 import util.SoftwareSpecifications;
+import util.alerta.Alerta;
 
 /**
  *
@@ -61,6 +64,13 @@ public class Painel extends Application {
         
         if (config == null) {
             config = new Config(diretorio);
+        }
+        
+        //BACKUP AUTOMATICO
+        if (config.BACKUP_AUTOMATICO) {
+            if (DateUtils.formatDate(System.currentTimeMillis()).equals(config.PROXIMO_BACKUP)) {
+                new BackupRestauracaoConfiguracoesController().backupAutomatico();
+            }
         }
         
     }

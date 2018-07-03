@@ -54,13 +54,24 @@
          </children>
       </VBox>
       <StackPane fx:id="stackPane" layoutX="543.0" layoutY="237.0" prefHeight="150.0" prefWidth="200.0" />
-      <VBox fx:id="comprovantesBox" layoutX="43.0" layoutY="237.0" spacing="5.0">
+      <VBox fx:id="comprovantesBox" layoutX="43.0" layoutY="223.0" spacing="5.0">
          <children>
             <Label text="Diretório dos Comprovantes" />
             <HBox alignment="CENTER" prefWidth="600.0" spacing="5.0">
                <children>
                   <TextField fx:id="caminhoComprovantesText" editable="false" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório para salvar os comprovantes de venda e manutenção" HBox.hgrow="ALWAYS" />
                   <Button mnemonicParsing="false" onAction="#alterarComprovantes" text="Alterar" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox fx:id="mySQLBox" layoutX="43.0" layoutY="344.0" spacing="5.0">
+         <children>
+            <Label text="Diretório Instação do MySQL pasta &quot;BIN&quot;" />
+            <HBox alignment="CENTER" prefWidth="600.0" spacing="5.0">
+               <children>
+                  <TextField fx:id="caminhoMySQLText" editable="false" maxWidth="1.7976931348623157E308" promptText="Selecione o diretório de instalação do MySQL, pasta &quot;BIN&quot;" HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#alterarMySQL" text="Alterar" />
                </children>
             </HBox>
          </children>

@@ -4,6 +4,7 @@ package backup;
  * @author pedro
  */
 
+import app.Painel;
 import banco.ConexaoBanco;
 import banco.dao.DAO;
 import org.apache.log4j.Logger;
@@ -22,7 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 import util.FileCrypt;
-import util.alerta.Alerta;
 
 public class BackupRestauracao extends DAO {
 
@@ -35,7 +35,7 @@ public class BackupRestauracao extends DAO {
         String nome = "Backup_" + data;
 
         if (Config.isWindows()) {
-            String command = Config.BIN_MYSQL_PATH + "mysqldump.exe";
+            String command = Painel.config.BIN_MYSQL_PATH + Config.getBarra() + "mysqldump.exe";
             ProcessBuilder pb = new ProcessBuilder(
                     command,
                     "--user=" + ConexaoBanco.USERNAME,
@@ -45,7 +45,23 @@ public class BackupRestauracao extends DAO {
                     "administrador", "cliente", "receita", "forma_pagamento", "manutencao", "venda", "venda_produto",
                     "--result-file=" + path + nome + ".sql");
             try {
+                
                 pb.start().waitFor();
+                
+                //--------------------------------------------------------------------------
+                String arquivo = path + nome;//Pegando diretorio + nome do aquivo
+                FileCrypt criptografia = new FileCrypt();//Criando instancia do Classe FileCrypt
+                FileInputStream descriptografado = new FileInputStream(arquivo + ".sql");//Arquivo Descriptografado
+                FileOutputStream criptografado = new FileOutputStream(arquivo + ".bak");//Arquivo Criptografado
+                boolean finish = criptografia.criptografar(descriptografado, criptografado);//Criptografando arquivo
+                new File(arquivo + ".sql").delete();//Deletando arquivo Descriptografado
+                //--------------------------------------------------------------------------
+                
+                if (!finish) {//Caso houve erro ao realizar criptografia do backup
+                    new File(arquivo + ".bak").delete();
+                    return null;
+                }
+                
                 return nome;
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -60,10 +76,6 @@ public class BackupRestauracao extends DAO {
 
             Runtime rt = Runtime.getRuntime();
             File test = new File(path + nome + ".sql");
-            
-            if (new File(path + nome + ".bak").exists()) {
-                return null;
-            }
             
             PrintStream ps;
             try {
@@ -109,7 +121,7 @@ public class BackupRestauracao extends DAO {
         }
 
         //primeiro faz backup do banco
-        String backup = exportar((new File("")).getAbsolutePath() + Config.getBarra());
+        String backup = exportar((new File(Painel.config.DIRETORIO_BACKUP)).getAbsolutePath() + Config.getBarra());
 
         try {
             //exclui o bd
@@ -125,16 +137,16 @@ public class BackupRestauracao extends DAO {
         }
 
         try {
-            //cria o bd
-            if (new File(getClass().getClassLoader().getResource("sgc_infocel.sql").getFile()).exists()) {
-                Alerta.info("Achou");
-            } else {
-                Alerta.erro("Nao achou");
-            }
             
-            System.out.println(new File(getClass().getClassLoader().getResource("sgc_infocel.sql").getFile()).toURI());
-
-            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource("sgc_infocel.sql").getFile()));
+            //Script criptografado
+            InputStream source = getClass().getClassLoader().getResourceAsStream("sgc_infocel.bak");
+            //Script descriptografado
+            FileOutputStream destino = new FileOutputStream(Painel.config.DIRETORIO + "sgc_infocel.sql");//Salva no diretorio do sistema
+            //Decodifica o Escript e salva na salva pasta do sistema
+            new FileCrypt().descriptografar(source, destino);
+            
+            //cria o bd
+            executeSqlScript(getConector(), new File(Painel.config.DIRETORIO + "sgc_infocel.sql"));
 
             //--------------------------------------------------------------------------
             String arquivo = pathImport.replaceAll(".bak", "");//Pegando diretorio + nome do aquivo
@@ -142,11 +154,11 @@ public class BackupRestauracao extends DAO {
             FileInputStream criptografado = new FileInputStream(arquivo + ".bak");//Arquivo Criptografado
             FileOutputStream descriptografado = new FileOutputStream(arquivo + ".sql");//Arquivo Desriptografado
             boolean finish = criptografia.descriptografar(criptografado, descriptografado);//Descriptografando arquivo
-            //new File(arquivo + ".sql").delete();//Deletando arquivo Descriptografado
             //--------------------------------------------------------------------------
 
             if (!finish) {
                 new File(arquivo + ".sql").delete();
+                new File(Painel.config.DIRETORIO + "sgc_infocel.sql").delete();//Deletando Script de criacao do BD
                 return false;
             }
             
@@ -159,7 +171,11 @@ public class BackupRestauracao extends DAO {
             //--------------------------------------------------------------------------
             new File(arquivo + ".sql").delete();//Deletando arquivo Descriptografado
             //--------------------------------------------------------------------------
-
+            
+            //--------------------------------------------------------------------------
+            new File(Painel.config.DIRETORIO + "sgc_infocel.sql").delete();//Deletando Script de criacao do BD
+            //--------------------------------------------------------------------------
+            
         } catch (Exception ex) {
             Logger.getLogger(getClass()).error(ex);
             ex.printStackTrace();

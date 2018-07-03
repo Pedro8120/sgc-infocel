@@ -66,6 +66,10 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @FXML
     private StackPane stackPane;
     private ProgressIndicator indicator = new ProgressIndicator();
+    @FXML
+    private VBox mySQLBox;
+    @FXML
+    private TextField caminhoMySQLText;
 
     /**
      * Initializes the controller class.
@@ -82,18 +86,24 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         backupAutomaticoCheckBox.setSelected(config.BACKUP_AUTOMATICO);
         caminhoBackupText.appendText(config.DIRETORIO_BACKUP);
         caminhoComprovantesText.appendText(config.DIRETORIO_RELATORIOS);
-
+        
         if (config.ULTIMO_BACKUP != null) {
             ultimoBackupLabel.setText(config.getUltimoBackup());
         }
         if (config.PROXIMO_BACKUP != null) {
             proximoBackupLabel.setText(config.getProximoBackup());
         }
+        if (!config.BIN_MYSQL_PATH.isEmpty()) {
+            caminhoMySQLText.setText(config.BIN_MYSQL_PATH);
+        }
+        
+        if (!Config.isWindows()) {
+            mySQLBox.setVisible(false);
+        }
 
         diasSpinner.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         ultimoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
         proximoBackupLabel.disableProperty().bind(backupAutomaticoCheckBox.selectedProperty().not());
-        //btnBackup.disableProperty().bind(caminhoBackupText.textProperty().isEmpty());
 
         SpinnerValueFactory<Integer> valores = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, config.BACKUP_A_CADA_DIA);
         diasSpinner.setValueFactory(valores);
@@ -108,8 +118,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
-                Logger.getLogger(getClass()).error(ex);
-                ex.printStackTrace();
+                System.err.println(ex.getMessage());
             }
         });
 
@@ -143,31 +152,67 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
-                Logger.getLogger(getClass()).error(ex);
-                ex.printStackTrace();
+                System.err.println(ex.getMessage());
             }
         });
     }
 
     private void atualizarDatas(Long data) {
-        if (config.BACKUP_AUTOMATICO) {
+        if (Painel.config.BACKUP_AUTOMATICO) {
             int dias = diasSpinner.getValue();
-            config.ULTIMO_BACKUP = data;
+            Painel.config.ULTIMO_BACKUP = data;
 
             LocalDate ultimoBackup = DateUtils.createLocalDate(data);
             LocalDate proximoBackup = ultimoBackup.plusDays(dias);
-            config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
+            Painel.config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
 
-            proximoBackupLabel.setText(config.getProximoBackup());
-            ultimoBackupLabel.setText(config.getUltimoBackup());
+            proximoBackupLabel.setText(Painel.config.getProximoBackup());
+            ultimoBackupLabel.setText(Painel.config.getUltimoBackup());
 
             try {
-                config.salvarArquivo();
+                Painel.config.salvarArquivo();
             } catch (Exception ex) {
-                Logger.getLogger(getClass()).error(ex);
-                ex.printStackTrace();
+                System.err.println(ex.getMessage());
             }
         }
+    }
+    
+    public void backupAutomatico() {
+        String path = Painel.config.DIRETORIO_BACKUP + Config.getBarra();// + nome + ".sql";
+
+        //Metodo executado numa Thread separada
+        SwingWorker<String, String> worker = new SwingWorker<String, String>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                File pasta = new File(path);
+                if (pasta.exists() == false) {
+                    pasta.mkdirs();
+                }
+
+                return BackupRestauracao.exportar(path);
+            }
+
+            //Metodo chamado apos terminar a execucao numa Thread separada
+            @Override
+            protected void done() {
+                super.done(); //To change body of generated methods, choose Tools | Templates.
+
+                try {
+                    if (get() != null) {
+                        Alerta.info("Nome do arquivo: " + get(), "Backup automático realizado com sucesso!");
+                        atualizarDatas(System.currentTimeMillis());
+                    } else {
+                        Alerta.erro("Erro ao realizar backup automático");
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(getClass()).error(ex);
+                    Alerta.erro("Erro ao realizar backup automático", ex.getMessage());
+                    ex.printStackTrace();
+                }
+            }
+        };
+
+        worker.execute();
     }
 
     @FXML
@@ -311,8 +356,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
-                Logger.getLogger(getClass()).error(ex);
-                ex.printStackTrace();
+                System.err.println(ex.getMessage());
             }
         }
     }
@@ -338,8 +382,31 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
-                Logger.getLogger(getClass()).error(ex);
-                ex.printStackTrace();
+                System.err.println(ex.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void alterarMySQL(ActionEvent event) {
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("Escolha a pasta de instalação do MySQL [BIN]");
+
+        if ((new File(config.BIN_MYSQL_PATH).exists()))
+            chooser.setInitialDirectory(new File(config.BIN_MYSQL_PATH));
+
+        File arquivo = chooser.showDialog(Painel.palco);
+
+        if (arquivo != null) {
+            String diretorio = arquivo.getAbsolutePath();
+
+            caminhoMySQLText.setText(diretorio);
+            config.BIN_MYSQL_PATH = diretorio;
+            
+            try {
+                config.salvarArquivo();
+            } catch (Exception ex) {
+                System.err.println(ex.getMessage());
             }
         }
     }

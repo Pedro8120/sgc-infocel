@@ -3,10 +3,10 @@ package util;
 import java.io.Serializable;
 
 public class Config implements Serializable {
-    public static final String BIN_MYSQL_PATH = "C:\\Arquivos de programas\\MySQL\\MySQL Server 5.7\\bin\\";
 
     public String DIRETORIO;
     
+    public String BIN_MYSQL_PATH; //"C:\\Arquivos de programas\\MySQL\\MySQL Server 5.7\\bin\\";
     public String DIRETORIO_BACKUP;
     public boolean BACKUP_AUTOMATICO;
     public int BACKUP_A_CADA_DIA;
@@ -16,6 +16,7 @@ public class Config implements Serializable {
     
     public Config(String diretorio) {
         DIRETORIO = diretorio;
+        BIN_MYSQL_PATH = "";
         DIRETORIO_BACKUP = DIRETORIO + "Backup_SGC" + getBarra();
         BACKUP_AUTOMATICO = false;
         BACKUP_A_CADA_DIA = 1;
