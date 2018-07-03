@@ -53,7 +53,6 @@ public class Painel extends Application {
         String diretorio = System.getProperty("java.class.path");
         String jarName = new java.io.File(Painel.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getName();
         diretorio = diretorio.replaceAll(jarName, "");
-
         try {
             config = (Config) Arquivo.importar(diretorio);
             config.verificar(diretorio);

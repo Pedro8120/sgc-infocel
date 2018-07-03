@@ -501,14 +501,3 @@ CREATE  OR REPLACE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY D
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
-
-
-USE sgc_infocel;
-
-INSERT INTO cidade (id, nome, status) VALUES (1, 'CIDADE', 1);
-
-INSERT INTO bairro (id, nome, id_cidade, status) VALUES (1, 'BAIRRO', 1, 1);
-
-INSERT INTO endereco (id, rua, numero, id_bairro, status) VALUES (1, 'RUA', 'NUMERO', 1, 1);
-
-INSERT INTO administrador (id, nome, login, senha, email, cpf, rg, data_cadastro, status, id_endereco) VALUES (1, 'ADMIN', 'admin', 'admin', 'admin@hotmail.com', '111.111.111-11', '11.111.111-11', 9999999999, 1, 1);

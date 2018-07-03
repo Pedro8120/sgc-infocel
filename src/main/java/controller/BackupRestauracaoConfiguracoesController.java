@@ -224,7 +224,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         indicator.setVisible(true);
 
         // String nome = "Backup_" + DateUtils.getDataHoraPonto(System.currentTimeMillis());
-        String path = caminhoBackupText.getText() + Config.getBarra();// + nome + ".sql";
+        String path = config.DIRETORIO_BACKUP;// + nome + ".sql";
 
         //Metodo executado numa Thread separada
         SwingWorker<String, String> worker = new SwingWorker<String, String>() {
@@ -270,8 +270,8 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @FXML
     private void importar(ActionEvent event) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Escolha o diretório para Backup");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SQL files (*.bak)", "*.bak");
+        chooser.setTitle("Escolha um arquivo de Backup");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Backup files (*.bak)", "*.bak");
         chooser.getExtensionFilters().add(extFilter);
 
         if ((new File(config.DIRETORIO_BACKUP).exists()))
@@ -282,16 +282,14 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         if (arquivo != null) {
             String path = arquivo.getAbsolutePath();
 
-            caminhoBackupText.setText(path);
-
             Dialogo.Resposta resposta = Alerta.confirmar("Deseja realmente importar o Banco de Dados " + arquivo.getName());
             if (resposta == Dialogo.Resposta.YES) {
-                importarBancoDados();
+                importarBancoDados(path);
             }
         }
     }
 
-    private void importarBancoDados() {
+    private void importarBancoDados(String path) {
         backupBox.setVisible(false);
         comprovantesBox.setVisible(false);
         btnBackup.setVisible(false);
@@ -302,7 +300,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
             protected Boolean doInBackground() throws Exception {
-                if (new BackupRestauracao().importar(caminhoBackupText.getText())) {
+                if (new BackupRestauracao().importar(path)) {
                     return true;
                 } else {
                     return false;
@@ -348,7 +346,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         File arquivo = chooser.showDialog(Painel.palco);
 
         if (arquivo != null) {
-            String diretorio = arquivo.getAbsolutePath();
+            String diretorio = arquivo.getAbsolutePath() + Config.getBarra();
 
             caminhoBackupText.setText(diretorio);
             config.DIRETORIO_BACKUP = diretorio;
@@ -368,7 +366,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
         File pasta = new File(config.DIRETORIO_RELATORIOS);
 
-        if ((new File(config.DIRETORIO_BACKUP).exists()))
+        if ((new File(config.DIRETORIO_RELATORIOS).exists()))
             chooser.setInitialDirectory(new File(config.DIRETORIO_RELATORIOS));
 
         File arquivo = chooser.showDialog(Painel.palco);
@@ -398,7 +396,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         File arquivo = chooser.showDialog(Painel.palco);
 
         if (arquivo != null) {
-            String diretorio = arquivo.getAbsolutePath();
+            String diretorio = arquivo.getAbsolutePath() + Config.getBarra();
 
             caminhoMySQLText.setText(diretorio);
             config.BIN_MYSQL_PATH = diretorio;

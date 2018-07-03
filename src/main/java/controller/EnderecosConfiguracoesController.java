@@ -250,7 +250,7 @@ public class EnderecosConfiguracoesController implements Initializable {
             try {
                 ControleDAO.getBanco().getBairroDAO().excluir(bairro);
                 Alerta.info("Bairro excluido com sucesso!");
-                sincronizarBancoDadosCidade();
+                sincronizarBancoDadosBairro(cidadesTable.getSelectionModel().getSelectedItem());
             } catch (SQLException ex) {
                 Logger.getLogger(getClass()).error(ex);
                 Alerta.erro("Erro ao exlucir Bairro");

@@ -16,7 +16,7 @@ public class FileCrypt {
     byte[] buf = new byte[TAMANHO_BUFFER];
     static String IV = "AAAAAAAAAAAAAAAA";
 
-    public Boolean criptografar(InputStream in, OutputStream out) throws Exception {
+    public Boolean criptografar(InputStream in, OutputStream out) {
         try {
             Cipher cifra = Cipher.getInstance("AES/CBC/PKCS5Padding", "SunJCE");
             SecretKeySpec key = new SecretKeySpec(chaveencriptacao.getBytes("UTF-8"), "AES");
@@ -41,7 +41,7 @@ public class FileCrypt {
         }
     }
 
-    public Boolean descriptografar(InputStream in, OutputStream out) throws Exception {
+    public Boolean descriptografar(InputStream in, OutputStream out) {
         try {
             Cipher cifra = Cipher.getInstance("AES/CBC/PKCS5Padding", "SunJCE");
             SecretKeySpec key = new SecretKeySpec(chaveencriptacao.getBytes("UTF-8"), "AES");

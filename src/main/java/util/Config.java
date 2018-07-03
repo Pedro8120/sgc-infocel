@@ -1,6 +1,7 @@
 package util;
 
 import java.io.Serializable;
+import util.alerta.Alerta;
 
 public class Config implements Serializable {
 
@@ -15,7 +16,7 @@ public class Config implements Serializable {
     public String DIRETORIO_RELATORIOS;
     
     public Config(String diretorio) {
-        DIRETORIO = diretorio;
+        DIRETORIO = diretorio;//Ja vem com a Barra "/" ou "\"
         BIN_MYSQL_PATH = "";
         DIRETORIO_BACKUP = DIRETORIO + "Backup_SGC" + getBarra();
         BACKUP_AUTOMATICO = false;
