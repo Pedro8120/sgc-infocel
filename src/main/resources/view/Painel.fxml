@@ -56,7 +56,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaConfiguracoes" text="Configurações" />
                </items>
             </Menu>
-            <Menu disable="true" mnemonicParsing="false" text="Ajuda">
+            <Menu disable="true" mnemonicParsing="false" text="Ajuda" visible="false">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#chamarTelaSobre" text="Sobre" />
                </items></Menu>

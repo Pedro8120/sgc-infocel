@@ -225,26 +225,34 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
     @FXML
     private void importar(ActionEvent event) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle("Escolha o diretória para backup");
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SQL files (*.sql)", "*.sql");
+        chooser.setTitle("Escolha o diretório para Backup");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("SQL files (*.bak)", "*.bak");
         chooser.getExtensionFilters().add(extFilter);
 
+        if ((new File(config.DIRETORIO_BACKUP).exists()))
+            chooser.setInitialDirectory(new File(config.DIRETORIO_BACKUP));
+        
         File arquivo = chooser.showOpenDialog(Painel.palco);
+        
+        if (arquivo != null) {
+            String path = arquivo.getAbsolutePath();
 
-        String path = arquivo.getAbsolutePath();
+            caminhoBackupText.setText(path);
 
-        caminhoBackupText.setText(path);
-
-        Dialogo.Resposta resposta = Alerta.confirmar("Deseja realmente importar o Banco de Dados " + arquivo.getName());
-        if (resposta == Dialogo.Resposta.YES) {
-            importarBancoDados();
+            Dialogo.Resposta resposta = Alerta.confirmar("Deseja realmente importar o Banco de Dados " + arquivo.getName());
+            if (resposta == Dialogo.Resposta.YES) {
+                importarBancoDados();
+            }
         }
-
     }
 
     private void importarBancoDados() {
-
+        backupBox.setVisible(false);
+        comprovantesBox.setVisible(false);
+        btnBackup.setVisible(false);
+        btnImportar.setVisible(false);
         indicator.setVisible(true);
+
         //Metodo executado numa Thread separada
         SwingWorker<Boolean, Boolean> worker = new SwingWorker<Boolean, Boolean>() {
             @Override
@@ -259,11 +267,12 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             //Metodo chamado apos terminar a execucao numa Thread separada
             @Override
             protected void done() {
-                //btnAlterar.setDisable(false);
-                btnBackup.setDisable(false);
-                btnImportar.setDisable(false);
-                caminhoBackupText.setDisable(false);
+                backupBox.setVisible(true);
+                comprovantesBox.setVisible(true);
+                btnBackup.setVisible(true);
+                btnImportar.setVisible(true);
                 indicator.setVisible(false);
+                
                 super.done(); //To change body of generated methods, choose Tools | Templates.
 
                 try {
@@ -295,16 +304,16 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
         if (arquivo != null) {
             String diretorio = arquivo.getAbsolutePath();
-            System.out.println(diretorio);
 
             caminhoBackupText.setText(diretorio);
-          /*  config.DIRETORIO_BACKUP = diretorio;
+            config.DIRETORIO_BACKUP = diretorio;
+            
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
                 Logger.getLogger(getClass()).error(ex);
                 ex.printStackTrace();
-            }*/
+            }
         }
     }
 
@@ -314,9 +323,6 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         chooser.setTitle("Escolha o diretório dos Comprovantes");
 
         File pasta = new File(config.DIRETORIO_RELATORIOS);
-//        if (pasta.exists() == false) {
-//            pasta.mkdirs();
-//        }
 
         if ((new File(config.DIRETORIO_BACKUP).exists()))
             chooser.setInitialDirectory(new File(config.DIRETORIO_RELATORIOS));

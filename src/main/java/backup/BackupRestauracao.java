@@ -11,7 +11,9 @@ import util.Config;
 import util.DateUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
@@ -19,6 +21,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import util.FileCrypt;
+import util.alerta.Alerta;
 
 public class BackupRestauracao extends DAO {
 
@@ -28,14 +32,14 @@ public class BackupRestauracao extends DAO {
         data = data.replace("-", "__");
         data = data.replace(":", "h");
         data = data + "m";
-        String nome = "backup_" + data;
+        String nome = "Backup_" + data;
 
         if (Config.isWindows()) {
             String command = Config.BIN_MYSQL_PATH + "mysqldump.exe";
             ProcessBuilder pb = new ProcessBuilder(
                     command,
-                    "--user=neoli831_teste",
-                    "--password=teste",
+                    "--user=" + ConexaoBanco.USERNAME,
+                    "--password=" + ConexaoBanco.PASSWORD,
                     ConexaoBanco.DATABASE,
                     "marca", "unidade_medida", "categoria_produto", "produto", "categoria_saida", "saida", "cidade", "bairro", "endereco",
                     "administrador", "cliente", "receita", "forma_pagamento", "manutencao", "venda", "venda_produto",
@@ -43,9 +47,9 @@ public class BackupRestauracao extends DAO {
             try {
                 pb.start().waitFor();
                 return nome;
-            } catch (Exception e) {
-                e.printStackTrace();
-                Logger.getLogger(BackupRestauracao.class).error(e);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                Logger.getLogger(BackupRestauracao.class).error(ex);
                 return null;
             }
 
@@ -56,6 +60,11 @@ public class BackupRestauracao extends DAO {
 
             Runtime rt = Runtime.getRuntime();
             File test = new File(path + nome + ".sql");
+            
+            if (new File(path + nome + ".bak").exists()) {
+                return null;
+            }
+            
             PrintStream ps;
             try {
                 Process child = rt.exec(dumpCommand);
@@ -70,7 +79,21 @@ public class BackupRestauracao extends DAO {
                 while ((ch = err.read()) != -1) {
                     System.out.write(ch);
                 }
-
+                
+                //--------------------------------------------------------------------------
+                String arquivo = path + nome;//Pegando diretorio + nome do aquivo
+                FileCrypt criptografia = new FileCrypt();//Criando instancia do Classe FileCrypt
+                FileInputStream descriptografado = new FileInputStream(arquivo + ".sql");//Arquivo Descriptografado
+                FileOutputStream criptografado = new FileOutputStream(arquivo + ".bak");//Arquivo Criptografado
+                boolean finish = criptografia.criptografar(descriptografado, criptografado);//Criptografando arquivo
+                new File(arquivo + ".sql").delete();//Deletando arquivo Descriptografado
+                //--------------------------------------------------------------------------
+                
+                if (!finish) {//Caso houve erro ao realizar criptografia do backup
+                    new File(arquivo + ".bak").delete();
+                    return null;
+                }
+                
                 return nome;
             } catch (Exception ex) {
                 Logger.getLogger(BackupRestauracao.class).error(ex);
@@ -95,22 +118,52 @@ public class BackupRestauracao extends DAO {
             stm = getConector().prepareStatement(sql);
             stm.executeUpdate();
             stm.close();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
+            return false;
         }
 
         try {
             //cria o bd
-            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource("script_bd.sql").getFile()));
+            if (new File(getClass().getClassLoader().getResource("sgc_infocel.sql").getFile()).exists()) {
+                Alerta.info("Achou");
+            } else {
+                Alerta.erro("Nao achou");
+            }
+            
+            System.out.println(new File(getClass().getClassLoader().getResource("sgc_infocel.sql").getFile()).toURI());
 
+            executeSqlScript(getConector(), new File(getClass().getClassLoader().getResource("sgc_infocel.sql").getFile()));
+
+            //--------------------------------------------------------------------------
+            String arquivo = pathImport.replaceAll(".bak", "");//Pegando diretorio + nome do aquivo
+            FileCrypt criptografia = new FileCrypt();//Criando instancia do Classe FileCrypt
+            FileInputStream criptografado = new FileInputStream(arquivo + ".bak");//Arquivo Criptografado
+            FileOutputStream descriptografado = new FileOutputStream(arquivo + ".sql");//Arquivo Desriptografado
+            boolean finish = criptografia.descriptografar(criptografado, descriptografado);//Descriptografando arquivo
+            //new File(arquivo + ".sql").delete();//Deletando arquivo Descriptografado
+            //--------------------------------------------------------------------------
+
+            if (!finish) {
+                new File(arquivo + ".sql").delete();
+                return false;
+            }
+            
             //insere os dados
-            executeSqlScript(getConector(), new File(pathImport));
+            executeSqlScript(getConector(), new File(arquivo + ".sql"));
 
             //exclui o backup criado
-            File file = new File(backup + ".sql");
-            file.delete();
-        } catch (Exception e) {
-            //importar(getClass().getClassLoader().getResource(backup).getFile());
-            //e.printStackTrace();
+            new File(backup + ".bak").delete();
+            
+            //--------------------------------------------------------------------------
+            new File(arquivo + ".sql").delete();//Deletando arquivo Descriptografado
+            //--------------------------------------------------------------------------
+
+        } catch (Exception ex) {
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
+            return false;
         }
 
         return true;
@@ -123,8 +176,9 @@ public class BackupRestauracao extends DAO {
         Scanner scanner;
         try {
             scanner = new Scanner(inputFile).useDelimiter(delimiter);
-        } catch (FileNotFoundException e1) {
-            e1.printStackTrace();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(getClass()).error(ex);
+            ex.printStackTrace();
             return;
         }
         // Loop through the SQL file statements
@@ -138,15 +192,17 @@ public class BackupRestauracao extends DAO {
                     currentStatement = conn.createStatement();
                     currentStatement.execute(rawStatement);
                 }
-            } catch (SQLException e) {
-                //  e.printStackTrace();
+            } catch (SQLException ex) {
+                Logger.getLogger(getClass()).error(ex);
+                ex.printStackTrace();
             } finally {
                 // Release resources
                 if (currentStatement != null) {
                     try {
                         currentStatement.close();
-                    } catch (SQLException e) {
-                        //  e.printStackTrace();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(getClass()).error(ex);
+                        ex.printStackTrace();
                     }
                 }
                 currentStatement = null;

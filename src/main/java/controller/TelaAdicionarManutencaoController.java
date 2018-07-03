@@ -198,9 +198,6 @@ public class TelaAdicionarManutencaoController extends AnchorPane {
         sincronizarBancoDadosAdministrador();
         sincronizarBancoDadosCidade();
         sincronizarBancoDadosPagamento();
-        
-        Formatter.desconto(precoText);
-        
     }
 
     private void adicionarPainelInterno(AnchorPane novaTela) {
