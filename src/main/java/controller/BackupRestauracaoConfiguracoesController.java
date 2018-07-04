@@ -115,6 +115,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
             LocalDate proximoBackup = ultimoBackup.plusDays(dias);
             config.PROXIMO_BACKUP = DateUtils.getLong(proximoBackup);
             proximoBackupLabel.setText(config.getProximoBackup());
+            backupAutomatico();
             try {
                 config.salvarArquivo();
             } catch (Exception ex) {
@@ -223,7 +224,6 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
         btnImportar.setVisible(false);
         indicator.setVisible(true);
 
-        // String nome = "Backup_" + DateUtils.getDataHoraPonto(System.currentTimeMillis());
         String path = config.DIRETORIO_BACKUP;// + nome + ".sql";
 
         //Metodo executado numa Thread separada
@@ -320,7 +320,7 @@ public class BackupRestauracaoConfiguracoesController implements Initializable {
 
                 try {
                     if (get()) {
-                        Alerta.info("Nome do arquivo: " + (new File(caminhoBackupText.getText())).getName(), "Importado com sucesso!");
+                        Alerta.info("Nome do arquivo: " + (new File(path)).getName(), "Importado com sucesso!");
                     } else {
                         Alerta.erro("Erro ao realizar importação");
                     }

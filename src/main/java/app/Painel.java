@@ -65,13 +65,5 @@ public class Painel extends Application {
             config = new Config(diretorio);
         }
         
-        //BACKUP AUTOMATICO
-        if (config.BACKUP_AUTOMATICO) {
-            if (DateUtils.formatDate(System.currentTimeMillis()).equals(config.PROXIMO_BACKUP)) {
-                new BackupRestauracaoConfiguracoesController().backupAutomatico();
-            }
-        }
-        
     }
-    
 }

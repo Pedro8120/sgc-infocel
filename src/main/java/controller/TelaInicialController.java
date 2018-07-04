@@ -5,6 +5,7 @@
  */
 package controller;
 
+import app.Painel;
 import banco.ControleDAO;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -135,6 +136,14 @@ public class TelaInicialController extends AnchorPane {
                 
             }
         });
+        
+        
+        //BACKUP AUTOMATICO
+        if (Painel.config.BACKUP_AUTOMATICO) {
+            if (Painel.config.PROXIMO_BACKUP <= System.currentTimeMillis()) {
+                new BackupRestauracaoConfiguracoesController().backupAutomatico();
+            }
+        }//BACKUP AUTOMATICO
     }
     
     private void adicionarPainelInterno(AnchorPane novaTela) {
